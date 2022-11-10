@@ -5,8 +5,10 @@ let passwordName = user.pass;
 
 test("Successful authorization", async ({ page }) => {
   await page.goto("https://netology.ru/");
+  await page.screenshot({ path: "home page.png" });
   await page.getByRole("link", { name: "Войти" }).click();
   await expect(page).toHaveURL("https://netology.ru/?modal=sign_in");
+  await page.screenshot({ path: "authorization.png" });
   await page.getByPlaceholder("Email").click();
   await page.getByPlaceholder("Email").fill(userName);
   await page.getByPlaceholder("Email").press("Tab");
@@ -14,6 +16,7 @@ test("Successful authorization", async ({ page }) => {
   await page.getByTestId("login-submit-btn").click();
   await expect(page).toHaveURL("https://netology.ru/profile");
   await page.getByText("Вы остановились здесь. Продолжим?").click();
+  await page.screenshot({ path: "profile.png" });
 });
 
 test("unsuccessful authorization", async ({ page }) => {
@@ -26,4 +29,5 @@ test("unsuccessful authorization", async ({ page }) => {
   await page.getByPlaceholder("Пароль").fill("jdeg8sk");
   await page.getByTestId("login-submit-btn").click();
   await page.getByTestId("login-error-hint").click();
+  await page.screenshot({ path: "error.png" });
 });
