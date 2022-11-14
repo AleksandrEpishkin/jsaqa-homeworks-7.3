@@ -14,9 +14,9 @@ test("Successful authorization", async ({ page }) => {
   await page.getByPlaceholder("Email").press("Tab");
   await page.getByPlaceholder("Пароль").fill(passwordName);
   await page.getByTestId("login-submit-btn").click();
-  await expect(page).toHaveURL("https://netology.ru/profile");
-  await page.getByText("Вы остановились здесь. Продолжим?").click();
-  await page.screenshot({ path: "profile.png" });
+  const header = page.locator("h2").first();
+  await expect(header).toHaveText("Мои курсы и профессии");
+  await page.screenshot({ path: "MyProgramm.png" });
 });
 
 test("unsuccessful authorization", async ({ page }) => {
@@ -29,5 +29,8 @@ test("unsuccessful authorization", async ({ page }) => {
   await page.getByPlaceholder("Пароль").fill("jdeg8sk");
   await page.getByTestId("login-submit-btn").click();
   await page.getByTestId("login-error-hint").click();
+  await expect(page.locator("data-testid=login-error-hint")).toContainText(
+    "Вы ввели неправильно логин или пароль"
+  );
   await page.screenshot({ path: "error.png" });
 });
